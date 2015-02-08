@@ -11,7 +11,6 @@ dat$DateTime <- strptime(paste(dat$Date,dat$Time), "%d/%m/%Y %H:%M:%S")
 secPerDay <- 60 * 60 * 24
 dayseq <- seq(min(dat$DateTime), max(dat$DateTime)+secPerDay, by = "day")
 fpng   <- "./ExData_Plotting1/plot4.png"
-days   <- strftime(dayseq,"%a")
 opar   <- par(no.readonly = TRUE)
 png(file = fpng, width = 480, height = 480, units = "px")
 par(mfcol = c(2, 2))
