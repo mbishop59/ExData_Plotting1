@@ -4,17 +4,17 @@
 cc    <- c("character", "character", "numeric", "numeric", "numeric",
            "numeric", "numeric", "numeric", "numeric" )
 fname <- "data/household_power_consumption.txt"
-dat   <- read.table(fname, header = TRUE, sep = ';', na.strings = '?',
-                    nrows = 2075265, colClasses = cc)
-dat2  <- with(dat, dat[Date == "1/2/2007" | Date == "2/2/2007",])
-dat2$Date <- strptime(dat2$Date, "%d/%m/%Y")
+colnames <- scan(fname, nlines = 1, sep = ";", what = "character")
+dat   <- read.table(fname, col.names = colnames, sep = ';', na.strings = '?',
+                    skip = 66637, nrows = 2880, colClasses = cc)
+dat$DateTime <- strptime(paste(dat$Date,dat$Time), "%d/%m/%Y %H:%M:%S")
 secPerDay <- 60 * 60 * 24
-dayseq <- seq(min(dat2$Date), max(dat2$Date)+secPerDay, by = "day")
+dayseq <- seq(min(dat$DateTime), max(dat$DateTime)+secPerDay, by = "day")
 fpng   <- "./ExData_Plotting1/plot2.png"
 days   <- strftime(dayseq,"%a")
 png(file = fpng, width = 480, height = 480, units = "px")
-plot(dat2$Global_active_power,xaxt = "n",type = "l",
+plot(dat$DateTime, dat$Global_active_power,xaxt = "n",type = "l",
      ylab = "Global Active Power (kilowatts)",
      xlab = "")
-axis(1, at = c(1,1440, 2880), label = days)
+axis.POSIXct(1, at = dayseq, "%a")
 dev.off()

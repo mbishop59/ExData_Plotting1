@@ -4,13 +4,13 @@
 
 file <- "./data/household_power_consumption.txt"
 cc   = c("character", "character", "numeric", "numeric",
-         "numeric", "numeric", "numeric", "numeric")
-dat  <- read.table(file, header = TRUE, sep = ";", na.strings = "?",
-                   nrows = 2075260, colClasses = cc)
-dat2 <- with(dat, dat[Date == "1/2/2007" | Date == "2/2/2007",])
+         "numeric", "numeric", "numeric", "numeric", "numeric")
+colnames <- scan(file, nlines = 1, sep = ";", what = "character")
+dat   <- read.table(file, col.names = colnames, sep = ';', na.strings = '?',
+                    skip = 66637, nrows = 2880, colClasses = cc)
 
 png(file = "./ExData_Plotting1/plot1.png", width = 480, height = 480,
     units = "px")
-hist(dat2$Global_active_power, col = "red", main = "Global Active Power",
+hist(dat$Global_active_power, col = "red", main = "Global Active Power",
      xlab = "Global Active Power (kilowatts)")
 dev.off()
